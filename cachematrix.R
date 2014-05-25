@@ -14,6 +14,7 @@
 ## ---
 
 
+
 ## `makeCacheMatrix` function creates a special "matrix" object that can
 ## cache its inverse matrix.
 ##
@@ -25,8 +26,8 @@
 ## Public methods
 ## =======
 ##
-## set(x)  set matrix value and clear cached inverse matrix if it exists
-## get()   get matrix value
+## set(x)  set matrix and clear cached inverse matrix if it exists
+## get()   get matrix 
 ##
 makeCacheMatrix <- function(x = matrix()) {
     i <- NULL
@@ -36,6 +37,7 @@ makeCacheMatrix <- function(x = matrix()) {
         x <<- y
         i <<- NULL
     }
+    
     ## getter for matrix
     get <- function() x
     
@@ -77,16 +79,20 @@ cacheSolve <- function(x, ...) {
     if ( type != "CacheMatrix")
         stop("Wrong argument type - x must be special \"matrix\" object created by makeCacheMatrix function.")
     
-    i <- x$getInverse()
+    
+    
     ## if inverse matrix is already stored in x object return it
+    i <- x$getInverse()
     if(!is.null(i)) {
         message("getting cached data")
         return(i)
     }
     
-    ## otherwise calculate inverse matrix
+    ## otherwise calculate an inverse matrix
     data <- x$get()
     i <- solve(data, ...)
+    
+    ## store the inverse matrix in special "matrix" object
     x$setInverse(i)
     
     ## Return a matrix that is the inverse of 'x'
